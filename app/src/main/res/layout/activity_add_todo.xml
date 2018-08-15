@@ -10,36 +10,43 @@
 
     <EditText
         android:id="@+id/add_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:layout_marginHorizontal="40dp"
         android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorAccent"
         android:hint="Title" />
 
     <EditText
         android:id="@+id/add_subtitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="122dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:layout_marginHorizontal="40dp"
         android:textColor="@color/colorAccent"
-        android:hint="Description" />
+        android:hint="Description"
+        android:textColorHint="@color/colorAccent"/>
 
     <Button
         android:id="@+id/add"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="211dp"
-        android:text="Button" />
+        android:text="Add To List"
+        android:layout_marginHorizontal="40dp"
+        android:background="@color/colorAccent"
+        android:textColor="#3c3c3c"/>
 
 
 </RelativeLayout>
