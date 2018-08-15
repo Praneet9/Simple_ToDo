@@ -20,9 +20,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<String> item_title = new ArrayList<>();
-    private ArrayList<String> item_subtitle = new ArrayList<>();
-    private ArrayList<Boolean> checkbox = new ArrayList<>();
+    private ArrayList<String> item_title;
+    private ArrayList<String> item_subtitle;
+    private ArrayList<Boolean> checkbox;
     private Context mContext;
 
     public RecyclerViewAdapter(ArrayList<String> item_title, ArrayList<String> item_subtitle, ArrayList<Boolean> checkbox, Context mContext) {
@@ -60,17 +60,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 if (!check.isChecked())
                 {
                     check.setChecked(true);
+                    checkbox.set(pos,true);
                     Collections.swap(item_title, pos, item_title.size() - 1);
                     Collections.swap(item_subtitle, pos, item_subtitle.size() - 1);
+                    Collections.swap(checkbox, pos, checkbox.size() - 1);
                     notifyItemMoved(pos, item_title.size() - 1);
                 }
                 else {
                     check.setChecked(false);
+                    checkbox.set(pos,false);
                     Collections.swap(item_title, pos, 0);
                     Collections.swap(item_subtitle, pos, 0);
+                    Collections.swap(checkbox, pos, 0);
                     notifyItemMoved(pos, 0);
                 }
-                
+
 
             }
         });
