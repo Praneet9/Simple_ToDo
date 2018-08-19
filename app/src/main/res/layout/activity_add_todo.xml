@@ -19,7 +19,7 @@
         android:inputType="textPersonName"
         android:layout_marginHorizontal="40dp"
         android:textColor="@color/colorAccent"
-        android:textColorHint="@color/colorAccent"
+        android:textColorHint="#FFF176"
         android:hint="Title" />
 
     <EditText
@@ -34,7 +34,7 @@
         android:layout_marginHorizontal="40dp"
         android:textColor="@color/colorAccent"
         android:hint="Description"
-        android:textColorHint="@color/colorAccent"/>
+        android:textColorHint="#FFF176"/>
 
     <Button
         android:id="@+id/add"

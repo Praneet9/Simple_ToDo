@@ -17,9 +17,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
 
-//    public ArrayList<String> item_title = new ArrayList<>();
-//    private ArrayList<String> item_subtitle = new ArrayList<>();
-//    private ArrayList<Boolean> checkbox = new ArrayList<>();
     private ArrayList<ToDo> todos = new ArrayList<>();
     private FloatingActionButton add;
 
@@ -66,9 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 final String subtitle = data.getStringExtra("subtitle");
                 ToDo toDo = new ToDo(title, subtitle,false);
                 todos.add(0, toDo);
-//                item_title.add(0, title);
-//                item_subtitle.add(0, subtitle);
-//                checkbox.add(0, false);
                 initRecyclerView();
             }
         }
