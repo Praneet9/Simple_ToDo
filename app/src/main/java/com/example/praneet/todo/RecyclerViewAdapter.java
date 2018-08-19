@@ -1,7 +1,9 @@
 package com.example.praneet.todo;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,20 +71,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     todos.get(pos).setChecked(true);
                     check.setChecked(true);
                     dbRef.child(Integer.toString(pos + 1)).child("checked").setValue(true);
-                    //Collections.swap(todos, pos, todos.size() - 1);
+                    Collections.swap(todos, pos, todos.size() - 1);
                     notifyItemMoved(pos, todos.size() - 1);
                 }
                 else {
                     todos.get(pos).setChecked(true);
                     check.setChecked(false);
                     dbRef.child(Integer.toString(pos + 1)).child("checked").setValue(false);
-                    //Collections.swap(todos, pos, 0);
+                    Collections.swap(todos, pos, 0);
                     notifyItemMoved(pos, 0);
                 }
 
 
             }
         });
+
     }
 
     @Override

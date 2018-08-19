@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,32 +61,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        // Read from the database
-//        dbRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                for(DataSnapshot item_snapshot:dataSnapshot.getChildren()){
-//                    ToDo user = item_snapshot.getValue(ToDo.class);
-//                    todos.add(user);
-//                }
-//
-//                initRecyclerView();
-//                //String value = dataSnapshot.getValue(String.class);
-//                //Log.d(TAG, "Value is: " + value);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//                Toast.makeText(MainActivity.this, "Failed to read value", Toast.LENGTH_SHORT).show();
-//                //Log.w(TAG, "Failed to read value.", error.toException());
-//            }
-//        });
-
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -99,18 +76,44 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 initRecyclerView();
-                //String value = dataSnapshot.getValue(String.class);
-                //Log.d(TAG, "Value is: " + value);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(MainActivity.this, "Failed to read value", Toast.LENGTH_SHORT).show();
-                //Log.w(TAG, "Failed to read value.", error.toException());
+
+                Toast.makeText(MainActivity.this, "Failed to fetch data. Please connect to the internet!", Toast.LENGTH_LONG).show();
+
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+
+                return true;
+
+                default:
+                    return false;
+
+        }
     }
 
     private void initRecyclerView(){
