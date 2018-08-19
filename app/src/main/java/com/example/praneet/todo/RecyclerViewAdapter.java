@@ -20,38 +20,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<String> item_title;
-    private ArrayList<String> item_subtitle;
-    private ArrayList<Boolean> checkbox;
-    private Context mContext;
+    private ArrayList<ToDo> todos;
 
-    public RecyclerViewAdapter(ArrayList<String> item_title, ArrayList<String> item_subtitle, ArrayList<Boolean> checkbox, Context mContext) {
-        this.item_title = item_title;
-        this.item_subtitle = item_subtitle;
-        this.checkbox = checkbox;
-        this.mContext = mContext;
+    RecyclerViewAdapter(ArrayList<ToDo> todos) {
+        this.todos = todos;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem,parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: called");
 
-        holder.title.setText(item_title.get(position));
-        holder.subtitle.setText(item_subtitle.get(position));
-        holder.checkBox.setChecked(checkbox.get(position));
+        ToDo todo = todos.get(position);
+
+        holder.title.setText(todo.getTitle());
+        holder.subtitle.setText(todo.getSubtitle());
+        holder.checkBox.setChecked(todo.isChecked());
 
         holder.parent_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Clicked on " + item_title.get(holder.getAdapterPosition()));
+                //Log.d(TAG, "onClick: Clicked on " + item_title.get(holder.getAdapterPosition()));
+
                 CheckBox check;
                 int pos = holder.getAdapterPosition();
 
@@ -59,19 +55,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                 if (!check.isChecked())
                 {
+                    todos.get(pos).setChecked(true);
                     check.setChecked(true);
-                    checkbox.set(pos,true);
-                    Collections.swap(item_title, pos, item_title.size() - 1);
-                    Collections.swap(item_subtitle, pos, item_subtitle.size() - 1);
-                    Collections.swap(checkbox, pos, checkbox.size() - 1);
-                    notifyItemMoved(pos, item_title.size() - 1);
+                    Collections.swap(todos, pos, todos.size() - 1);
+                    notifyItemMoved(pos, todos.size() - 1);
                 }
                 else {
+                    todos.get(pos).setChecked(true);
                     check.setChecked(false);
-                    checkbox.set(pos,false);
-                    Collections.swap(item_title, pos, 0);
-                    Collections.swap(item_subtitle, pos, 0);
-                    Collections.swap(checkbox, pos, 0);
+                    Collections.swap(todos, pos, 0);
                     notifyItemMoved(pos, 0);
                 }
 
@@ -82,7 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return item_subtitle.size();
+        return todos.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

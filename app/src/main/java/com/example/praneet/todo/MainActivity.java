@@ -17,9 +17,10 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
 
-    public ArrayList<String> item_title = new ArrayList<>();
-    private ArrayList<String> item_subtitle = new ArrayList<>();
-    private ArrayList<Boolean> checkbox = new ArrayList<>();
+//    public ArrayList<String> item_title = new ArrayList<>();
+//    private ArrayList<String> item_subtitle = new ArrayList<>();
+//    private ArrayList<Boolean> checkbox = new ArrayList<>();
+    private ArrayList<ToDo> todos = new ArrayList<>();
     private FloatingActionButton add;
 
     @Override
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRecyclerView(){
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(item_title, item_subtitle, checkbox, this);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(todos);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -63,9 +64,11 @@ public class MainActivity extends AppCompatActivity {
             if(data != null){
                 final String title = data.getStringExtra("title");
                 final String subtitle = data.getStringExtra("subtitle");
-                item_title.add(0, title);
-                item_subtitle.add(0, subtitle);
-                checkbox.add(0, false);
+                ToDo toDo = new ToDo(title, subtitle,false);
+                todos.add(0, toDo);
+//                item_title.add(0, title);
+//                item_subtitle.add(0, subtitle);
+//                checkbox.add(0, false);
                 initRecyclerView();
             }
         }
