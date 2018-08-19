@@ -11,42 +11,45 @@
     <EditText
         android:id="@+id/add_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp"
-        android:ems="10"
+        android:layout_marginTop="100dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:inputType="textPersonName"
         android:layout_marginHorizontal="40dp"
-        android:textColor="@color/colorAccent"
+        android:background="@drawable/input"
+        android:textColor="#FFF176"
         android:textColorHint="#FFF176"
         android:hint="Title" />
 
     <EditText
         android:id="@+id/add_subtitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="122dp"
-        android:ems="10"
+        android:layout_below="@+id/add_title"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:inputType="textPersonName"
         android:layout_marginHorizontal="40dp"
-        android:textColor="@color/colorAccent"
         android:hint="Description"
+        android:background="@drawable/input"
+        android:textColor="#FFF176"
         android:textColorHint="#FFF176"/>
 
     <Button
         android:id="@+id/add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="211dp"
+        android:layout_below="@+id/add_subtitle"
+        android:layout_marginTop="40dp"
         android:text="Add To List"
         android:layout_marginHorizontal="40dp"
-        android:background="@color/colorAccent"
-        android:textColor="#3c3c3c"/>
+        android:background="@drawable/button"/>
 
 
 </RelativeLayout>

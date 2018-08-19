@@ -7,6 +7,10 @@ public class ToDo implements Serializable {
     private String title, subtitle;
     private boolean checked;
 
+    public ToDo() {
+
+    }
+
     public ToDo(String title, String subtitle, boolean checked) {
         this.title = title;
         this.subtitle = subtitle;

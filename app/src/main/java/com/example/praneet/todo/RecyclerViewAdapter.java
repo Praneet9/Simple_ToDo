@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -21,9 +24,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<ToDo> todos;
+    private String uid;
 
-    RecyclerViewAdapter(ArrayList<ToDo> todos) {
+    private FirebaseDatabase database;
+    private DatabaseReference dbRef;
+
+    RecyclerViewAdapter(ArrayList<ToDo> todos, String uid) {
         this.todos = todos;
+        this.uid = uid;
     }
 
     @NonNull
@@ -36,6 +44,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: called");
+
+        database = FirebaseDatabase.getInstance();
+        dbRef = database.getReference("users").child(uid);
 
         ToDo todo = todos.get(position);
 
@@ -57,13 +68,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 {
                     todos.get(pos).setChecked(true);
                     check.setChecked(true);
-                    Collections.swap(todos, pos, todos.size() - 1);
+                    dbRef.child(Integer.toString(pos + 1)).child("checked").setValue(true);
+                    //Collections.swap(todos, pos, todos.size() - 1);
                     notifyItemMoved(pos, todos.size() - 1);
                 }
                 else {
                     todos.get(pos).setChecked(true);
                     check.setChecked(false);
-                    Collections.swap(todos, pos, 0);
+                    dbRef.child(Integer.toString(pos + 1)).child("checked").setValue(false);
+                    //Collections.swap(todos, pos, 0);
                     notifyItemMoved(pos, 0);
                 }
 
