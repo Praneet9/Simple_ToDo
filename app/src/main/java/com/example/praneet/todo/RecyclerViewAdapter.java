@@ -27,13 +27,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private ArrayList<ToDo> todos;
     private String uid;
+    private Context context;
 
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
 
-    RecyclerViewAdapter(ArrayList<ToDo> todos, String uid) {
+    RecyclerViewAdapter(ArrayList<ToDo> todos, String uid, Context context) {
         this.todos = todos;
         this.uid = uid;
+        this.context = context;
     }
 
     @NonNull
@@ -48,6 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.d(TAG, "onBindViewHolder: called");
 
         database = FirebaseDatabase.getInstance();
+        FirebaseDatabase.getInstance().getReference().keepSynced(true);
         dbRef = database.getReference("users").child(uid);
 
         ToDo todo = todos.get(position);
@@ -70,19 +73,55 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 {
                     todos.get(pos).setChecked(true);
                     check.setChecked(true);
-                    dbRef.child(Integer.toString(pos + 1)).child("checked").setValue(true);
+                    dbRef.child(todos.get(pos).getTitle()).child("checked").setValue(true);
                     Collections.swap(todos, pos, todos.size() - 1);
                     notifyItemMoved(pos, todos.size() - 1);
                 }
                 else {
                     todos.get(pos).setChecked(true);
                     check.setChecked(false);
-                    dbRef.child(Integer.toString(pos + 1)).child("checked").setValue(false);
+                    dbRef.child(todos.get(pos).getTitle()).child("checked").setValue(false);
                     Collections.swap(todos, pos, 0);
                     notifyItemMoved(pos, 0);
                 }
 
 
+            }
+        });
+
+        holder.parent_layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final int pos = holder.getAdapterPosition();
+
+                Toast.makeText(context, todos.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                builder1.setMessage("Are you sure you want to delete "+todos.get(pos).getTitle());
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                int loc = holder.getAdapterPosition();
+                                dbRef.child(todos.get(loc).getTitle()).removeValue();
+                                todos.remove(loc);
+                                notifyItemRemoved(pos);
+                                dialog.cancel();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+                return true;
             }
         });
 

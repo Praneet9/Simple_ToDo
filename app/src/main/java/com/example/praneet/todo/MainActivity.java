@@ -118,15 +118,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRecyclerView(){
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(todos, uid);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(todos, uid, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
     private void addTodo(String title, String subtitle) {
+        for (int i = 0; i < todos.size(); i++) {
+            if(todos.get(i).getTitle().equals(title)) {
+                Toast.makeText(this, "ToDo with same title already exists", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
         ToDo toDo = new ToDo(title, subtitle,false);
-        dbRef.child(Integer.toString(todos.size() + 1)).setValue(toDo);
+        dbRef.child(title).setValue(toDo);
         todos.add(0, toDo);
     }
 
@@ -145,4 +152,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }
